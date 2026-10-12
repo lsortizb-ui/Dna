@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eight Academy - Molecular Genetics</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --accent-blue: #38bdf8;
+      --accent-green: #4ade80;
+      --accent-purple: #c084fc;
+      --accent-pink: #f472b6;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 20px;
+      padding: 15px 25px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #334155;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      color: var(--accent-blue);
+    }
+
+    header p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
+    .slide-container {
+      width: 100%;
+      max-width: 900px;
+      min-height: 520px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 35px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      border: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .slide {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--accent-blue);
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-blue);
+    }
+
+    .card.purple { border-left-color: var(--accent-purple); }
+    .card.green { border-left-color: var(--accent-green); }
+    .card.pink { border-left-color: var(--accent-pink); }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.4;
+    }
+
+    .visual-box {
+      background: #020617;
+      border: 2px dashed #334155;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      margin: 20px 0;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+
+    .sim-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: transform 0.2s;
+    }
+
+    .sim-button:hover {
+      transform: scale(1.03);
+    }
+
+    /* iPad Interactive Table Styles */
+    .exercise-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .exercise-table th, .exercise-table td {
+      border: 1px solid #334155;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .exercise-table th {
+      background: #0f172a;
+      color: var(--accent-blue);
+    }
+
+    .input-cell {
+      background: #0f172a;
+      color: var(--accent-green);
+      border: 1px solid var(--accent-blue) !important;
+      border-radius: 4px;
+      outline: none;
+      font-family: monospace;
+      font-size: 1.1rem;
+      width: 90%;
+      text-align: center;
+      padding: 6px;
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid #334155;
+    }
+
+    .nav-btn {
+      background: #334155;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .slide-number {
+      color: var(--text-sub);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Eight Academy</h1>
+      <p>Biology - 2nd Baccalaureate</p>
+    </div>
+    <div>
+      <p>Teacher: <strong>Luis Ortíz</strong></p>
+    </div>
+  </header>
+
+  <main class="slide-container">
+    
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+      <h2 style="font-size: 2.2rem; color: var(--accent-blue);">The Central Dogma of Molecular Biology</h2>
+      <p class="subtitle">DNA Replication, Transcription & Translation</p>
+      
+      <div class="visual-box" style="margin-top: 40px; font-weight: bold; color: var(--accent-green);">
+        DNA &nbsp;&rarr;&nbsp; RNA &nbsp;&rarr;&nbsp; Protein
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>📍 Objective</h3>
+          <p>Understand how genetic information is copied, read, and expressed into proteins.</p>
+        </div>
+        <div class="card purple">
+          <h3>✍️ iPad Activity</h3>
+          <p>Complete the interactive sections directly on your screen during class.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: DNA Replication -->
+    <div class="slide">
+      <h2>1. DNA Replication</h2>
+      <p class="subtitle">Making an exact copy of DNA before cell division.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>🧬 Key Enzymes</h3>
+          <p><strong>Helicase:</strong> Unzips the double helix.<br>
+          <strong>DNA Polymerase:</strong> Adds complementary nucleotides (A-T, C-G).</p>
+        </div>
+        <div class="card green">
+          <h3>⚡ Key Feature</h3>
+          <p><strong>Semi-Conservative:</strong> Each new DNA molecule contains 1 original strand and 1 new strand.</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 25px;">
+        <a href="https://learn.genetics.utah.edu/content/basics/dna/" target="_blank" class="sim-button">
+          🌐 Open DNA Replication Simulator
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 3: Transcription -->
+    <div class="slide">
+      <h2>2. Transcription</h2>
+      <p class="subtitle">Copying DNA instructions into mRNA (inside the Nucleus).</p>
+
+      <div class="grid-2">
+        <div class="card purple">
+          <h3>📝 Base Pairing Rules</h3>
+          <p>DNA &rarr; mRNA<br>
+          A &rarr; <strong>U (Uracil)</strong><br>
+          T &rarr; <strong>A</strong><br>
+          C &rarr; <strong>G</strong> | G &rarr; <strong>C</strong></p>
+        </div>
+        <div class="card pink">
+          <h3>🎯 Main Goal</h3>
+          <p>Create a messenger RNA (mRNA) copy that can leave the nucleus and head to the ribosome.</p>
+        </div>
+      </div>
+
+      <div class="visual-box" style="font-size: 1rem; color: var(--accent-pink);">
+        DNA Strand: &nbsp;&nbsp; 3' - TAC GGC TTA ACT - 5'<br>
+        mRNA Strand: 5' - AUG CCG AAU UGA - 3'
+      </div>
+    </div>
+
+    <!-- Slide 4: Translation -->
+    <div class="slide">
+      <h2>3. Translation</h2>
+      <p class="subtitle">Building proteins from mRNA code (at the Ribosome).</p>
+
+      <div class="grid-2">
+        <div class="card green">
+          <h3>🔑 Key Concepts</h3>
+          <p><strong>Codon:</strong> 3 bases on mRNA.<br>
+          <strong>Anticodon:</strong> 3 matching bases on tRNA carrying an amino acid.</p>
+        </div>
+        <div class="card">
+          <h3>🏁 Start & Stop</h3>
+          <p><strong>AUG:</strong> Start Codon (Methionine).<br>
+          <strong>UAA / UAG / UGA:</strong> Stop Codons.</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 25px;">
+        <a href="https://learn.genetics.utah.edu/content/basics/transcribe/" target="_blank" class="sim-button">
+          🌐 Open Transcribe & Translate Simulator
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 5: Student Exercise 1 -->
+    <div class="slide">
+      <h2>✍️ Interactive Practice 1: Transcription</h2>
+      <p class="subtitle">Convert the DNA template strand into mRNA. (Tap boxes to type on iPad)</p>
+
+      <table class="exercise-table">
+        <thead>
+          <tr>
+            <th>Strand</th>
+            <th>Base Sequence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>DNA Template</strong></td>
+            <td>T A C &nbsp;|&nbsp; C C C &nbsp;|&nbsp; A T G &nbsp;|&nbsp; A C T</td>
+          </tr>
+          <tr>
+            <td><strong>mRNA (Fill in)</strong></td>
+            <td>
+              <input type="text" class="input-cell" placeholder="Type mRNA here (e.g., AUG...)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card purple" style="margin-top: 25px;">
+        <h3>💡 Tip for Students</h3>
+        <p>Remember: RNA uses <strong>Uracil (U)</strong> instead of Thymine (T).</p>
+      </div>
+    </div>
+
+    <!-- Slide 6: Student Exercise 2 -->
+    <div class="slide">
+      <h2>✍️ Interactive Practice 2: Translation</h2>
+      <p class="subtitle">Translate the mRNA codons into Amino Acids using your Genetic Code Chart.</p>
+
+      <table class="exercise-table">
+        <thead>
+          <tr>
+            <th>Codon #</th>
+            <th>mRNA Codon</th>
+            <th>Amino Acid (Fill in)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Codon 1</td>
+            <td>AUG</td>
+            <td><input type="text" class="input-cell" placeholder="e.g., Methionine (Start)"></td>
+          </tr>
+          <tr>
+            <td>Codon 2</td>
+            <td>GGG</td>
+            <td><input type="text" class="input-cell" placeholder="Enter Amino Acid"></td>
+          </tr>
+          <tr>
+            <td>Codon 3</td>
+            <td>UAC</td>
+            <td><input type="text" class="input-cell" placeholder="Enter Amino Acid"></td>
+          </tr>
+          <tr>
+            <td>Codon 4</td>
+            <td>UGA</td>
+            <td><input type="text" class="input-cell" placeholder="Enter Amino Acid"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Slide Navigation Footer -->
+    <div class="navigation">
+      <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>Previous</button>
+      <span class="slide-number" id="slideNum">Slide 1 / 6</span>
+      <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slideNum = document.getElementById('slideNum');
+
+    function updateSlides() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+      });
+      
+      slideNum.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      updateSlides();
+    }
+  </script>
+</body>
+</html>
